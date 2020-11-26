@@ -46,7 +46,6 @@ jobs:
         rm S112-SoftDevice.zip
 
     - name: install nrf5sdk
-      working-directory: /usr/share/nRF5-SDK
       run: |
         mkdir /usr/share/nRF5-SDK
         cd /usr/share/nRF5-SDK
