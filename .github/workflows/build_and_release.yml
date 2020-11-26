@@ -11,22 +11,40 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      PATH: /usr/local/gcc-arm-none-eabi-7-2018-q2-update/bin/:${PATH}:/usr/local/nRF5x/nrfjprog:/usr/local/nRF5x/mergehex
+#       PATH: /usr/local/gcc-arm-none-eabi-7-2018-q2-update/bin/:${PATH}:/usr/local/nRF5x/nrfjprog:/usr/local/nRF5x/mergehex
       SDK_ROOT: /usr/share/nRF5-SDK/nRF5_SDK_15.3.0_59ac345
       S112_ROOT: /usr/share/S112-SoftDevice/
       S112_IMAGE: /usr/share/S112-SoftDevice/s112_nrf52_6.1.0_softdevice.hex
       BUILD_PLACE: /usr/share/nRF5-SDK/nRF5_SDK_15.3.0_59ac345/examples/ble_peripheral
-
-    steps:
-    - uses: actions/checkout@v2
     
-    - name: arm-none-eabi-gcc
+    steps:  
+    - name: Check cache for Embedded Arm Toolchain arm-none-eabi-gcc
+      id:   cache-toolchain
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-toolchain-7-2018-q2
+      with:
+        path: ${{ runner.temp }}/arm-none-eabi
+        key:  ${{ runner.os }}-build-${{ env.cache-name }}
+        restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}
+
+    - name: Install Embedded Arm Toolchain arm-none-eabi-gcc
+      if:   steps.cache-toolchain.outputs.cache-hit != 'true'  # Install toolchain if not found in cache
       uses: fiam/arm-none-eabi-gcc@v1.0.2
       with:
         # GNU Embedded Toolchain for Arm release name, in the V-YYYY-qZ format (e.g. "9-2019-q4")
         release: 7-2018-q2
         # Directory to unpack GCC to. Defaults to a temporary directory.
-        directory: /usr/local
+        directory: ${{ runner.temp }}/arm-none-eabi
+
+
+#     - name: arm-none-eabi-gcc
+#       uses: fiam/arm-none-eabi-gcc@v1.0.2
+#       with:
+#         # GNU Embedded Toolchain for Arm release name, in the V-YYYY-qZ format (e.g. "9-2019-q4")
+#         release: 7-2018-q2
+#         # Directory to unpack GCC to. Defaults to a temporary directory.
+#         directory: /usr/local
      
     - name: install_python
       uses: actions/setup-python@v2
