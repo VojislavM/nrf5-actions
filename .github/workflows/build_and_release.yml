@@ -21,15 +21,21 @@ jobs:
         release: 7-2018-q2
         # Directory to unpack GCC to. Defaults to a temporary directory.
         directory: /usr/local
+     
+    - name: install_python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '2.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
 
-    - name: install dep
-      run: |
-        sudo apt-get update && apt-get install -y \
-        unzip \
-        vim \
-        python \
-        python-pip \
-        && apt-get purge
+    - name: install_pip
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          nrfutil
+          
+    - name: Install zip
+      uses: montudor/action-zip@v0.1.1
 
     - name: install softdevice
       working-directory: /usr/share/S112-SoftDevice
@@ -44,6 +50,3 @@ jobs:
         wget -qO nRF5-SDK.zip https://www.nordicsemi.com/-/media/Software-and-other-downloads/SDKs/nRF5/Binaries/nRF5SDK153059ac345.zip && \
         unzip nRF5-SDK.zip && \
         rm nRF5-SDK.zip
-
-    - name: make distcheck
-      run: make distcheck
