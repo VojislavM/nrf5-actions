@@ -59,14 +59,14 @@ jobs:
         unzip nRF5-SDK.zip
         rm nRF5-SDK.zip
          
-#     - name: install nrfcli
-#       run: |
-#         mkdir /usr/local/nRF5x
-#         cd /usr/local/nRF5x
-#         wget https://www.nordicsemi.com/-/media/Software-and-other-downloads/Desktop-software/nRF-command-line-tools/sw/Versions-10-x-x/10-11-1/nRFCommandLineTools10111Linuxamd64tar.gz
-#         tar -xf nRFCommandLineTools10111Linuxamd64tar.gz
-#         tar -xf nRF-Command-Line-Tools_10_11_1.tar
-#         rm nRFCommandLineTools10111Linuxamd64tar.gz
+    - name: install nrfcli
+      run: |
+        sudo mkdir /usr/local/nRF5x
+        cd /usr/local/nRF5x
+        wget https://www.nordicsemi.com/-/media/Software-and-other-downloads/Desktop-software/nRF-command-line-tools/sw/Versions-10-x-x/10-11-1/nRFCommandLineTools10111Linuxamd64tar.gz
+        tar -xf nRFCommandLineTools10111Linuxamd64tar.gz
+        tar -xf nRF-Command-Line-Tools_10_11_1.tar
+        rm nRFCommandLineTools10111Linuxamd64tar.gz
      
 #      - name: build example
 #       working-directory: $BUILD_PLACE/ble_app_beacon
