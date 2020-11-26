@@ -38,15 +38,18 @@ jobs:
       uses: montudor/action-zip@v0.1.1
 
     - name: install softdevice
-      working-directory: /usr/share/S112-SoftDevice
-      run: |  
-        wget -qO S112-SoftDevice.zip https://www.nordicsemi.com/-/media/Software-and-other-downloads/SoftDevices/S112/s112nrf52611.zip && \
-        unzip S112-SoftDevice.zip && \
+      run: | 
+        mkdir /usr/share/S112-SoftDevice
+        cd /usr/share/S112-SoftDevice
+        wget -qO S112-SoftDevice.zip https://www.nordicsemi.com/-/media/Software-and-other-downloads/SoftDevices/S112/s112nrf52611.zip
+        unzip S112-SoftDevice.zip
         rm S112-SoftDevice.zip
 
     - name: install nrf5sdk
       working-directory: /usr/share/nRF5-SDK
       run: |
-        wget -qO nRF5-SDK.zip https://www.nordicsemi.com/-/media/Software-and-other-downloads/SDKs/nRF5/Binaries/nRF5SDK153059ac345.zip && \
-        unzip nRF5-SDK.zip && \
+        mkdir /usr/share/nRF5-SDK
+        cd /usr/share/nRF5-SDK
+        wget -qO nRF5-SDK.zip https://www.nordicsemi.com/-/media/Software-and-other-downloads/SDKs/nRF5/Binaries/nRF5SDK153059ac345.zip
+        unzip nRF5-SDK.zip
         rm nRF5-SDK.zip
