@@ -1,0 +1,49 @@
+name: Build and release nrf5 application
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: arm-none-eabi-gcc
+      uses: fiam/arm-none-eabi-gcc@v1.0.2
+      with:
+        # GNU Embedded Toolchain for Arm release name, in the V-YYYY-qZ format (e.g. "9-2019-q4")
+        release: 7-2018-q2
+        # Directory to unpack GCC to. Defaults to a temporary directory.
+        directory: /usr/local
+
+    - name: install dep
+      run: |
+        apt-get update && apt-get install -y \
+        unzip \
+        vim \
+        python \
+        python-pip \
+        && apt-get purge
+
+    - name: install softdevice
+      working-directory: /usr/share/S112-SoftDevice
+      run: |  
+        wget -qO S112-SoftDevice.zip https://www.nordicsemi.com/-/media/Software-and-other-downloads/SoftDevices/S112/s112nrf52611.zip && \
+        unzip S112-SoftDevice.zip && \
+        rm S112-SoftDevice.zip
+
+    - name: install nrf5sdk
+      working-directory: /usr/share/nRF5-SDK
+      run: |
+        wget -qO nRF5-SDK.zip https://www.nordicsemi.com/-/media/Software-and-other-downloads/SDKs/nRF5/Binaries/nRF5SDK153059ac345.zip && \
+        unzip nRF5-SDK.zip && \
+        rm nRF5-SDK.zip
+
+    - name: make distcheck
+      run: make distcheck
